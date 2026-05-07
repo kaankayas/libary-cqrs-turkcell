@@ -6,7 +6,10 @@ import com.turkcell.libary_cqrs.core.mediator.cqrs.CommandHandler;
 import com.turkcell.libary_cqrs.domain.entities.Author;
 import com.turkcell.libary_cqrs.infrastructure.persitence.repository.AuthorJpaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class CreateAuthorCommandHandler implements CommandHandler<CreateAuthorCommand, UUID> {
 
     private final AuthorJpaRepository authorJpaRepository;

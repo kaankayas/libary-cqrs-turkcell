@@ -11,6 +11,6 @@ public record LoginCommand(
     String email,
     @NotBlank(message = "Şifre alanı boş bırakılamaz")
     String password
-) implements Command<String>{
+) implements Command<LoginResponse>{
 
 }

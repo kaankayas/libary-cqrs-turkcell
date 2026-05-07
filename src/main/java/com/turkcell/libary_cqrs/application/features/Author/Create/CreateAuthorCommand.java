@@ -1,5 +1,6 @@
 package com.turkcell.libary_cqrs.application.features.Author.Create;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import com.turkcell.libary_cqrs.core.mediator.cqrs.Command;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ public record CreateAuthorCommand(
 
     @NotNull(message = "Doğum tarihi boş olamaz")
     @Past(message = "Doğum tarihi geçmiş bir tarih olmalıdır")
-    java.time.LocalDateTime birthDate
+    LocalDateTime birthDate
 ) implements Command<UUID> {
 }
 

@@ -6,23 +6,29 @@ import org.springframework.stereotype.Service;
 
 import com.turkcell.libary_cqrs.core.exceptions.type.BusinessException;
 import com.turkcell.libary_cqrs.core.mediator.cqrs.CommandHandler;
+import com.turkcell.libary_cqrs.core.security.jwt.JwtService;
 import com.turkcell.libary_cqrs.domain.entities.Student;
 import com.turkcell.libary_cqrs.infrastructure.persitence.repository.StudentJpaRepository;
 
 @Service
-public class LoginCommandHandler implements  CommandHandler<LoginCommand, String>{
+public class LoginCommandHandler implements  CommandHandler<LoginCommand, LoginResponse>{
 
     private final StudentJpaRepository studentJpaRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public LoginCommandHandler(StudentJpaRepository studentJpaRepository, PasswordEncoder passwordEncoder) {
+    public LoginCommandHandler(StudentJpaRepository studentJpaRepository, PasswordEncoder passwordEncoder,
+            JwtService jwtService) 
+    {
         this.studentJpaRepository = studentJpaRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
 
+
     @Override
-    public String handle(LoginCommand command) {
+    public LoginResponse handle(LoginCommand command) {
         Student student = this.studentJpaRepository.findByEmail(command.email())
                                 .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST,"Kullanıcı bilgileri yanlış"));
 
@@ -31,7 +37,8 @@ public class LoginCommandHandler implements  CommandHandler<LoginCommand, String
         if(!passwordMatch)
             throw new BusinessException(HttpStatus.BAD_REQUEST,"Kullanıcı bilgileri yanlış");
 
-        return "Giriş Başarılı";
-    }
+        String jwt = jwtService.generate(student.getId(), student.getEmail());
+        return new LoginResponse(jwt);    
+        }
 
 }

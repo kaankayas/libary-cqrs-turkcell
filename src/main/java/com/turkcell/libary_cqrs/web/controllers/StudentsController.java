@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.libary_cqrs.application.features.Auth.Student.Login.LoginCommand;
+import com.turkcell.libary_cqrs.application.features.Auth.Student.Login.LoginResponse;
 import com.turkcell.libary_cqrs.application.features.Auth.Student.Register.RegisterCommand;
 import com.turkcell.libary_cqrs.application.features.Student.Query.Search.SearchByNameQuery;
 import com.turkcell.libary_cqrs.application.features.Student.Query.Search.SearchByNameQueryResponse;
@@ -50,7 +51,7 @@ public class StudentsController {
    }
 
    @PostMapping("login")
-   public ResponseEntity<String> login(@RequestBody @Valid LoginCommand command) {
+   public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginCommand command) {
       var response = mediator.send(command); 
          return ResponseEntity.ok(response);
    }

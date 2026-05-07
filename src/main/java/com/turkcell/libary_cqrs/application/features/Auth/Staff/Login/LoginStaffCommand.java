@@ -11,6 +11,6 @@ public record LoginStaffCommand(
 
     @NotBlank(message = "Şifre boş olamaz")
     String password
-) implements Command<String> {
+) implements Command<LoginResponse> {
 }
 

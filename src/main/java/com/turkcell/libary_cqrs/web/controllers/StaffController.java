@@ -13,6 +13,7 @@ import com.turkcell.libary_cqrs.application.features.Staff.GetById.GetByIdStaffR
 import com.turkcell.libary_cqrs.application.features.Staff.GetAll.GetAllStaffQuery;
 import com.turkcell.libary_cqrs.application.features.Staff.GetAll.GetAllStaffQueryResponse;
 import com.turkcell.libary_cqrs.application.features.Auth.Staff.Register.RegisterStaffCommand;
+import com.turkcell.libary_cqrs.application.features.Auth.Staff.Login.LoginResponse;
 import com.turkcell.libary_cqrs.application.features.Auth.Staff.Login.LoginStaffCommand;
 import com.turkcell.libary_cqrs.core.mediator.Mediator;
 
@@ -59,7 +60,7 @@ public class StaffController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginStaffCommand command) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginStaffCommand command) {
 
         return ResponseEntity.ok(mediator.send(command));
     }

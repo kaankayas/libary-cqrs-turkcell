@@ -4,8 +4,6 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-
 import com.turkcell.libary_cqrs.application.features.Book.Create.CreateBookCommand;
 import com.turkcell.libary_cqrs.application.features.Book.Update.UpdateBookCommand;
 import com.turkcell.libary_cqrs.application.features.Book.Delete.DeleteBookCommand;
@@ -25,14 +23,12 @@ public class BooksController {
     }
 
     @PostMapping
-    public ResponseEntity<UUID> create(@Valid @RequestBody CreateBookCommand command) {
-
+    public ResponseEntity<UUID> create(@RequestBody CreateBookCommand command) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mediator.send(command));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable UUID id, @Valid @RequestBody UpdateBookCommand command) {
-
+    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody UpdateBookCommand command) {
         if (!id.equals(command.id())) return ResponseEntity.badRequest().build();
         mediator.send(command);
         return ResponseEntity.ok().build();
